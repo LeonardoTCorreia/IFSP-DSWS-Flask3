@@ -1,47 +1,42 @@
 # A very simple Flask Hello World app for you to get started with...
-from flask import Flask, request, abort, make_response, redirect
+from flask import Flask, request
 
 app = Flask(__name__)
 
+
 @app.route('/')
-def hello_world():
-    return '<p>Hello from Flask!</p><table><tr><td><b>Aluno:</b></td><td>Leonardo Correia</td></tr><tr><td><b>Prontuário:</b></td><td>PT3026621</td></tr></table>'
-
-#user
-@app.route('/user/<name>')
-def user(name):
-    return '<h1>Hello, {}!</h1>'.format(name)
-
-#contextorequisicao
-@app.route('/contextorequisicao')
-def contextorequisicao():
-    user_agent = request.headers.get('User-Agent');
-    return '<p>Your browser is {}</p>'.format(user_agent);
-
-@app.route('/codigostatusdiferente')
-def codigostatusdiferente():
-     abort(400)  # Força um erro 400
-
-@app.errorhandler(400)
-def bad_request(error):
-    return 'Bad request', 400
-
-#objetoresposta
-@app.route('/objetoresposta')
-def objetoresposta():
-    resp = make_response("<h1>This document carries a cookie!</h1>")
-    resp.set_cookie('answer', '4.2')
-    return resp
-
-#redirecionamento
-@app.route('/redirecionamento')
-def redirecionamento():
-    return redirect('https://ptb.ifsp.edu.br/')
-
-#abortar
-@app.route('/abortar')
-def not_found():
-    abort(404)  # Força um erro 404
+def index():
+    return '''
+        <h1>Avaliação contínua: Aula 030</h1>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/user/Leonardo Correia/PT3026621/IFSP">Identificação</a></li>
+            <li><a href="/contexto_requisicao">Contexto da requisição</a></li>
+        </ul>
+    '''
 
 
+@app.route('/user/<name>/<prontuario>/<instituicao>')
+def user(name, prontuario, instituicao):
+    return f'''
+        <h1>Avaliação contínua: Aula 030</h1>
+        <h2>Aluno: {name}</h2>
+        <h2>Prontuário: {prontuario}</h2>
+        <h2>Instituição: {instituicao}</h2>
+        <p><a href="../../../">Voltar</a></p>
+    '''
 
+# Rota para Contexto da Requisição
+@app.route('/contexto_requisicao')
+def contexto_requisicao():
+    user_agent = request.headers.get('User-Agent')  # Navegador do cliente
+    remote_ip = request.remote_addr  # IP do cliente
+    host = request.host  # Host da aplicação
+
+    return f'''
+    <h1>Contexto da Requisição</h1>
+    <p>Seu navegador é: {user_agent}</p>
+    <p>O IP do computador remoto é: {remote_ip}</p>
+    <p>O host da aplicação é: {host}</p>
+    <a href="/">Voltar</a>
+    '''
