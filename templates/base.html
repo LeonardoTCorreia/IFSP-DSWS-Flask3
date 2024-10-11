@@ -1,7 +1,19 @@
-(% extends "bootstrap/base.html %")
+{% extends "bootstrap/base.html %"}
 
 {% bllock title %}Flasky{% endblock %}
 
 {% block head %}
 {{super()}}
-<link rel="shortcurt icon" href=""
+<link rel="shortcurt icon" href="{{ url_for('static', filename='favicon.ico')}}" type="image/x-icon">
+<link rel="icon" href="{{url_for('static, filename='favicon.ico')}}" type="image/x-icon">
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar inverse" role="navigation"
+    <div class="container">
+        <div class="navbar header">
+            <button type="button" class="navbar toggle"
+            <span class=""
+        </div>
+    </div>
+</div>
